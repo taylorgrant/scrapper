@@ -28,17 +28,20 @@ sentiment_model <- tweetnlp$load_model('sentiment')
 singleclass_model <- tweetnlp$load_model('topic_classification', multi_label=FALSE)
 emoji_model <- tweetnlp$load_model('emoji')
 emotion_model <- tweetnlp$load_model('emotion')
+ner_model <- tweetnlp$load_model('ner')
 
 # run the nlp
 out <- out |> 
   mutate(sentiment = map(str_replace_all(text, url_pattern, ""), tweetnlp_sentiment),
          top_emotion = map(str_replace_all(text, url_pattern, ""), tweetnlp_emotion),
+         entity = map(str_replace_all(text, url_pattern, ""), tweetnlp_ner),
          topic = map(str_replace_all(text, url_pattern, ""), tweetnlp_topic),
          emoji = map(str_replace_all(text, url_pattern, ""), tweetnlp_emoji)) |> 
   unnest(cols = c(sentiment, top_emotion, topic, emoji))
 
 
-tmp <- tweetnlp_emotion(out$text[4])
-tibble(prob = unlist(tmp$probability, use.names = FALSE)) |> 
-  slice_max(order_by = prob, n = 1)
-which.max(data.frame(lapply(tmp$probability, function(x) t(data.frame(x)))))
+tmp <- tweetnlp_ner('Jacob Collier is a Grammy-awarded English artist from London.')
+
+do.call(rbind.data.frame, tmp) |> 
+  mutate(entity = str_replace_all(glue::glue("{type}: {entity}"), "  ", " ")) |> 
+  summarise(entity = paste(entity, collapse = "; "))
