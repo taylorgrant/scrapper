@@ -24,5 +24,15 @@ tweetnlp_emoji <- function(text) {
   emoji_model$emoji(text)$label
 }
 
+# named entity recognition 
+tweetnlp_ner <- function(text) {
+  tmp <- ner_model$ner(text)
+  if (length(tmp) > 0) {
+    do.call(rbind.data.frame, tmp) |> 
+      mutate(entity = str_replace_all(glue::glue("{type}: {entity}"), "  ", " ")) |> 
+      summarise(entity = paste(entity, collapse = "; "))
+  }
+}
+
 # to strip out urls when running sentiment
 url_pattern <- "http[s]?://(?:[a-zA-Z]|[0-9]|[$-_@.&+]|[!*\\(\\),]|(?:%[0-9a-fA-F][0-9a-fA-F]))+"
