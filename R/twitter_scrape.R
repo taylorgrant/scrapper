@@ -7,7 +7,7 @@ source_python(here::here("py_functions", "twitter_search.py"))
 source(here::here("R", "helpers", "tweetnlp_functions.R"))
 
 # build query
-query <- build_twitter_query(text = "",username = "carlquintanilla",since = "2023-05-10", until = "",retweet = "y",replies = "y")
+query <- build_twitter_query(text = "debt ceiling",username = "",since = "2023-05-10", until = "",retweet = "y",replies = "y")
 
 # how many to get
 n = 40
@@ -40,8 +40,4 @@ out <- out |>
   unnest(cols = c(sentiment, top_emotion, topic, emoji))
 
 
-tmp <- tweetnlp_ner('Jacob Collier is a Grammy-awarded English artist from London.')
 
-do.call(rbind.data.frame, tmp) |> 
-  mutate(entity = str_replace_all(glue::glue("{type}: {entity}"), "  ", " ")) |> 
-  summarise(entity = paste(entity, collapse = "; "))
