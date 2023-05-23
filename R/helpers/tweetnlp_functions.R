@@ -16,7 +16,7 @@ tweetnlp_emotion <- function(text) {
 
 # single class classification function
 tweetnlp_topic <- function(text) {
-  singleclass_model$topic(text)$label
+  paste(multiclass_model$topic(text, return_probability = TRUE)$label, collapse = "; ")
 }
 
 # predict the emoji to end the tweet 
@@ -36,3 +36,5 @@ tweetnlp_ner <- function(text) {
 
 # to strip out urls when running sentiment
 url_pattern <- "http[s]?://(?:[a-zA-Z]|[0-9]|[$-_@.&+]|[!*\\(\\),]|(?:%[0-9a-fA-F][0-9a-fA-F]))+"
+
+
