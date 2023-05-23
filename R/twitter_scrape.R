@@ -7,10 +7,12 @@ source_python(here::here("py_functions", "twitter_search.py"))
 source(here::here("R", "helpers", "tweetnlp_functions.R"))
 
 # build query
-query <- build_twitter_query(text = "debt ceiling",username = "",since = "2023-05-10", until = "",retweet = "y",replies = "y")
+query <- build_twitter_query(text = "debt ceiling", username = "",
+                             since = "2022-01-01", until = "",
+                             retweet = "y",replies = "y")
 
 # how many to get
-n = 40
+n = 20000
 
 # run it
 out <- twitter_search(n, query) |> 
@@ -25,7 +27,7 @@ tweetnlp <- reticulate::import("tweetnlp")
 
 # load transformer models  
 sentiment_model <- tweetnlp$load_model('sentiment')
-singleclass_model <- tweetnlp$load_model('topic_classification', multi_label=FALSE)
+multiclass_model <- tweetnlp$load_model('topic_classification', multi_label=TRUE)
 emoji_model <- tweetnlp$load_model('emoji')
 emotion_model <- tweetnlp$load_model('emotion')
 ner_model <- tweetnlp$load_model('ner')
@@ -38,6 +40,5 @@ out <- out |>
          topic = map(str_replace_all(text, url_pattern, ""), tweetnlp_topic),
          emoji = map(str_replace_all(text, url_pattern, ""), tweetnlp_emoji)) |> 
   unnest(cols = c(sentiment, top_emotion, topic, emoji))
-
 
 
