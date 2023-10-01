@@ -1,0 +1,48 @@
+---
+title: "Tiktok Analysis: `r handle`"
+output: 
+  flexdashboard::flex_dashboard:
+    orientation: columns
+    vertical_layout: scroll
+    theme: lumen
+    css: styles.css
+    
+---
+
+---
+logo: `r logo`
+data: `r data`
+handle: `r handle`
+
+---
+<style>
+.navbar, [data-toggle=tab], .navbar-brand  {   background-color:white; border:2px; border-color:lightgray; color:white; }
+
+.navbar-logo img {
+    position: relative;
+    right: 0px;
+}
+</style>
+
+```{r}
+pacman::p_load(tidyverse, janitor, here, glue, flexdashboard, knitr, DT, highcharter)
+df <- readRDS(data)
+```
+
+Account Overview {data-orientation=rows}
+=======================================================================
+
+Row
+-----------------------------------------------------------------------
+
+### Average Engagement
+
+```{r}
+df |> 
+  summarise(`Avg. View Count` = round(mean(view_count)),
+            `Avg. Like Count` = round(mean(like_count)),
+            `Avg. Comment Count` = round(mean(comment_count)),
+            `Avg. Repost Count` = round(mean(repost_count))) |> 
+  knitr::kable(align = "ccc")
+```
+
