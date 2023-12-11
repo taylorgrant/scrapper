@@ -58,7 +58,7 @@ tt_hashtag_data <- function(hashtag) {
  
 }
 
-out <- tt_hashtag_data('hellokitty')
+out <- tt_hashtag_data('tiktokmademebuyit')
 
 
 
