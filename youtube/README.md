@@ -25,7 +25,7 @@ within that environment using `conda_install()`. To ensure that the
 proper conda environment is used, either set the .Renviron or use
 `Sys.setenv(RETICULATE_PYTHON=dir/to/env)` at the top of the code.
 
-## Folder structure\*\*
+**Folder structure**
 
 ``` r
 ├── R

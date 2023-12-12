@@ -25,7 +25,7 @@ This is a program that scrapes YouTube for the metadata for a video along with t
 
 Similar to the [TikTok](https://github.com/taylorgrant/scrapper/tree/main/tiktok) scraper, most of the code is written in R, but it also uses some Python, and it also requires [yt-dlp](https://github.com/yt-dlp/yt-dlp) to be installed. Use the `reticulate` package to create a new conda environment `conda_create('env-name')` and then install everything within that environment using `conda_install()`. To ensure that the proper conda environment is used, either set the .Renviron or use `Sys.setenv(RETICULATE_PYTHON=dir/to/env)` at the top of the code.
 
-## Folder structure**
+**Folder structure**
 
 ```{r, eval = FALSE}
 ├── R
