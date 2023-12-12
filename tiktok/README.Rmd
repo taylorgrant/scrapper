@@ -1,5 +1,6 @@
 ---
 output: github_document
+always_allow_html: true
 ---
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
@@ -51,7 +52,7 @@ pacman::p_load(tidyverse, here, kableExtra)
 
 readRDS(here("tiktok", "tiktok_data", "processed", "bmw-2023-12-11.rds")) |> 
   head(3) |> 
-  knitr::kable()
+  kbl(row.names = FALSE)
 
 ```
 

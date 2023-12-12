@@ -60,8 +60,6 @@ When run, the data looks like this:
 <thead>
 <tr>
 <th style="text-align:left;">
-</th>
-<th style="text-align:left;">
 uploader
 </th>
 <th style="text-align:left;">
@@ -110,9 +108,6 @@ at_mentions
 </thead>
 <tbody>
 <tr>
-<td style="text-align:left;">
-0
-</td>
 <td style="text-align:left;">
 bmw
 </td>
@@ -163,9 +158,6 @@ original sound
 </tr>
 <tr>
 <td style="text-align:left;">
-01
-</td>
-<td style="text-align:left;">
 bmw
 </td>
 <td style="text-align:left;">
@@ -213,9 +205,6 @@ love song (hesitations) (sped up)
 </td>
 </tr>
 <tr>
-<td style="text-align:left;">
-02
-</td>
 <td style="text-align:left;">
 bmw
 </td>
