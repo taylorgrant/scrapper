@@ -23,7 +23,7 @@ Most of the code is written in R, but it also uses some Python, and it also requ
 ```{r, eval = FALSE}
 ├── tiktok
 │   ├── R
-│   │   ├── clean_links.R
+│   │   ├── filter_links.R
 │   │   ├── tiktok_full.R
 │   │   └── tiktok_scrape.R
 │   ├── py_functions

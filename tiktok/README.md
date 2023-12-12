@@ -18,7 +18,7 @@ proper conda environment is used, either set the .Renviron or use
 ``` r
 ├── tiktok
 │   ├── R
-│   │   ├── clean_links.R
+│   │   ├── filter_links.R
 │   │   ├── tiktok_full.R
 │   │   └── tiktok_scrape.R
 │   ├── py_functions

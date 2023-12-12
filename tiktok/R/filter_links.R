@@ -1,5 +1,5 @@
 # read, clean, and filter urls from link gopher
-clean_links <- function(file_loc, handle = NULL, hashtag = NULL) {
+filter_links <- function(file_loc, handle = NULL, hashtag = NULL) {
   handle <- stringr::str_remove_all(handle, "@") # remove at handle if attached
   hashtag <- stringr::str_remove_all(hashtag, "#") # remove at handle if attached
   
