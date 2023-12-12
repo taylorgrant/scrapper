@@ -179,9 +179,9 @@ server <- function(input, output) {
   # GET DATA FOR APP --------------------------------------------------------
   data <- shiny::eventReactive(input$run_url, {
     # load function
-    source("/srv/shiny-server/hashtag-trends/R/tt_hashtag_data.R")
+    source("/srv/shiny-server/hashtag-trends/R/trending_hashtags.R")
     # run function
-    out <- tt_hashtag_data(input$tt_hash)
+    out <- trending_hashtags(input$tt_hash)
   })
   
   

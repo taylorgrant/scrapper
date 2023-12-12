@@ -1,5 +1,5 @@
 # Tiktok Hashtag Data Pull # 
-tt_hashtag_data <- function(hashtag) {
+trending_hashtags <- function(hashtag) {
   
   pacman::p_load(tidyverse, here, glue, janitor, httr, rvest)
   
