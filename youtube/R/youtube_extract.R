@@ -1,11 +1,10 @@
 # to get data out of the returned lists # 
 youtube_extract <- function(datalist) {
-  # get summary data about the video
+  # get summary data about the video (like count no longer included in data)
   summary <- purrr::map_dfr(datalist, 
                             magrittr::extract, 
                             c("uploader", "upload_date", "title", "description", "categories",
-                              "duration_string", "view_count", 
-                              "like_count", "comment_count", "original_url")) |> 
+                              "duration_string", "view_count", "comment_count", "original_url")) |> 
     dplyr::rename(duration = duration_string) |> 
     dplyr::mutate(upload_date = lubridate::ymd(upload_date))
   # get the comments
