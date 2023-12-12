@@ -1,0 +1,80 @@
+---
+output: github_document
+---
+
+<!-- README.md is generated from README.Rmd. Please edit that file -->
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+library(tidyverse)
+```
+
+# YouTube
+
+<!-- badges: start -->
+<!-- badges: end -->
+
+#### What is this? 
+
+This is a program that scrapes YouTube for the metadata for a video along with the comments left by users. It's very helpful for NLP analysis of what people are talking about - either for a brand's videos, or for a specific vertical. 
+
+**Needed to run:**
+
+Similar to the [TikTok](https://github.com/taylorgrant/scrapper/tree/main/tiktok) scraper, most of the code is written in R, but it also uses some Python, and it also requires [yt-dlp](https://github.com/yt-dlp/yt-dlp) to be installed. Use the `reticulate` package to create a new conda environment `conda_create('env-name')` and then install everything within that environment using `conda_install()`. To ensure that the proper conda environment is used, either set the .Renviron or use `Sys.setenv(RETICULATE_PYTHON=dir/to/env)` at the top of the code.
+
+## Folder structure**
+
+```{r, eval = FALSE}
+├── R
+│   ├── youtube_extract.R
+│   ├── youtube_filter.R
+│   └── youtube_full.R
+├── py_functions
+│   └── youtube_dl_info.py
+└── youtube_data
+    ├── links
+    └── processed
+```
+
+The code structure is pretty simple. The R function `youtube_full.R` will call all other functions necessary. That function will look for a file in the `/youtube_data/links/` folder and it will look for a file name of `{name}.csv`. The file should only include YouTube links and have a column header named `links`.
+
+#### To Run
+Once the YouTube urls are saved in the `/youtube_data/links/` folder, everything else runs through the `/R/youtube_full.R` file. It will source the other functions, de-dupe the posts, and save two files - .rds and .xlsx. 
+
+#### Output 
+
+As an example, we'll grab two urls from GQ Iconic Songs interviews and run them through the scraper. One url is for an interview with [St.Vincent](https://www.youtube.com/watch?v=8Pip_puDIOA) the other is with [Dave Matthews](https://www.youtube.com/watch?v=Lz33OZf4Yx0). 
+
+#### Run 
+
+```{r, eval = FALSE}
+youtube_full("gq_iconic_songs")
+```
+
+##### Summary Data
+
+```{r, echo = TRUE}
+out <- readRDS(here::here('youtube', "youtube_data", "processed", "gq_iconic_songs_2023-12-11.rds"))
+out$summary |> 
+  data.frame()
+```
+
+##### Comment Data
+
+```{r, echo = TRUE}
+out <- readRDS(here::here('youtube', "youtube_data", "processed", "gq_iconic_songs_2023-12-11.rds"))
+out$comments |> 
+  group_by(video) |> 
+  summarise(comment_count = n())
+```
+
+```{r, echo = TRUE}
+out <- readRDS(here::here('youtube', "youtube_data", "processed", "gq_iconic_songs_2023-12-11.rds"))
+out$comments |> 
+  group_by(video) |> 
+  slice(c(4, 90, 150)) |> 
+  data.frame()
+```
