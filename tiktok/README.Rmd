@@ -45,7 +45,7 @@ Once the TikTok urls are saved in the `/tiktok_data/links/` folder, everything e
 
 #### Output 
 
-When run, the data looks like this:
+When run, the data looks like the below. URLs aren't showing up in this table, but they're included as well.
 
 ```{r, echo = FALSE}
 pacman::p_load(tidyverse, here, kableExtra)

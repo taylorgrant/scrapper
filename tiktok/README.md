@@ -54,7 +54,8 @@ the other functions, de-dupe the posts, and save two files - .rds and
 
 #### Output
 
-When run, the data looks like this:
+When run, the data looks like the below. URLs aren’t showing up in this
+table, but they’re included as well.
 
 <table>
 <thead>

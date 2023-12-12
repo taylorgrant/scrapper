@@ -10,6 +10,6 @@ R code to scrape various sites for information.
 
 Sections include:
 
-- TikTok
-  - Grab organic post data and unwatermarket downloadable link to video
+- [TikTok](https://github.com/taylorgrant/scrapper/tree/main/tiktok)
+  - Grab organic post data and un-watermarked downloadable link to video
     file
