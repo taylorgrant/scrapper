@@ -182,8 +182,6 @@ server <- function(input, output) {
     source("/srv/shiny-server/hashtag-trends/R/tt_hashtag_data.R")
     # run function
     out <- tt_hashtag_data(input$tt_hash)
-    # temp data for build
-    # out <- readRDS("/srv/shiny-server/hashtag-trends/test_data.rds")
   })
   
   
