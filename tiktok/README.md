@@ -30,20 +30,27 @@ proper conda environment is used, either set the .Renviron or use
 
 #### Harvesting Tiktok URLs
 
-As of right now, yt-dlp can’t just access a user’s page and grab the
-relevant urls; we have to feed the urls into the function. To harvest, I
-to use the [Link
+As of right now, yt-dlp can’t just access a specific TikTok page and
+grab the relevant urls; we have to feed the urls into the function. To
+harvest, I to use the [Link
 Gopher](https://chrome.google.com/webstore/detail/link-gopher/bpjdkodgnbfalgghnbeggfbfjpcfamkf)
-extension for Chrome. Go the page of interest - e.g.,
-[BMW](https://www.tiktok.com/@bmw?lang=en) - and scroll down through the
-posted content, allowing the posts to load. After loading enough posts,
-use the Link Gopher extension to grab all urls.
+extension for Chrome. Go the page of interest - whether that’s a handle
+(e.g., [BMW](https://www.tiktok.com/@bmw?lang=en)) or a hashtag (e.g.,
+[\#dumplings](https://www.tiktok.com/search?q=%23dumplings)) - and
+manually scroll down through the posted content, allowing the posts to
+load. After loading enough posts, use the Link Gopher extension to grab
+all urls.
 
 1.  Copy and paste all of them to a .csv or .xlsx file.
 2.  Make sure the column header is titled - “links”
 3.  To work within the folder structure as it’s set up, save this file
     to the `/tiktok_data/links` folder using the naming convention -
-    `{handle}.csv` or `{handle}.xlsx`.
+    `{handle}.[csv | xlsx]` or `{hashtag}.[csv | xlsx]`. The naming
+    convention doesn’t matter a whole lot since only the post urls will
+    be kept, but it will make a difference when saving - if it’s a
+    handle, it will save as `{handle}.xlsx` and `{handle}.rds`, but if
+    it’s a hashtag the file will prepend a `hashtag_{hashtag}.` to the
+    front of the filename.
 
 #### To Run
 
