@@ -13,8 +13,51 @@ knitr::opts_chunk$set(
 
 ## Tiktok scraping
 
-Most of the code is written in R, but it also leverages Python code and it also requires [yt-dlp](https://github.com/yt-dlp/yt-dlp) to be installed. 
+**Needed to run:**
 
-Use the `reticulate` package to create a new conda environment and then install everything within that environment using `conda_install()`. To ensure that the proper conda environment is used, either set the .Renviron or use `Sys.setenv(RETICULATE_PYTHON=dir/to/env)`.
+Most of the code is written in R, but it also uses some Python, and it also requires [yt-dlp](https://github.com/yt-dlp/yt-dlp) to be installed. Use the `reticulate` package to create a new conda environment `conda_create('env-name')` and then install everything within that environment using `conda_install()`. To ensure that the proper conda environment is used, either set the .Renviron or use `Sys.setenv(RETICULATE_PYTHON=dir/to/env)` at the top of the code.
+
+**Folder structure** 
+
+```{r, eval = FALSE}
+├── tiktok
+│   ├── R
+│   │   ├── clean_links.R
+│   │   ├── tiktok_full.R
+│   │   └── tiktok_scrape.R
+│   ├── py_functions
+│   │   └── tiktok_info.py
+│   └── tiktok_data
+│       ├── links
+│       └── processed
+```
+
+#### Harvesting Tiktok URLs
+As of right now, yt-dlp can't just access a user's page and grab the relevant urls; we have to feed the urls into the function. To harvest, I to use the [Link Gopher](https://chrome.google.com/webstore/detail/link-gopher/bpjdkodgnbfalgghnbeggfbfjpcfamkf) extension for Chrome. Go the page of interest - e.g., [BMW](https://www.tiktok.com/@bmw?lang=en) - and scroll down through the posted content, allowing the posts to load. After loading enough posts, use the Link Gopher extension to grab all urls. 
+
+1. Copy and paste all of them to a .csv or .xlsx file. 
+2. Make sure the column header is titled - "links"
+3. To work within the folder structure as it's set up, save this file to the `/tiktok_data/links` folder using the naming convention - `{handle}.csv` or `{handle}.xlsx`.
+
+#### To Run
+Once the TikTok urls are saved in the `/tiktok_data/links/` folder, everything else runs through the `/R/tiktok_full.R` file. It will source the other functions, de-dupe the posts, and save two files - .rds and .xlsx. 
+
+#### Output 
+
+When run, the data looks like this:
+
+```{r, echo = FALSE}
+pacman::p_load(tidyverse, here, kableExtra)
+
+readRDS(here("tiktok", "tiktok_data", "processed", "bmw-2023-12-11.rds")) |> 
+  head(3) |> 
+  knitr::kable()
+
+```
+
+
+
+
+
 
 
