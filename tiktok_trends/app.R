@@ -32,6 +32,10 @@ ui <- fluidPage(
                             "tt_hash", 
                             label = "", 
                             value = ""),
+                          radioButtons("range", 
+                                       label = span(tags$i(h5("Select a date range")), style="color:#045a8d"),
+                                       choices = list("7 days" = 7, "30 days" = 30, "120 days" = 120, "1 year" = 365, "3 years" = 1095), 
+                                       selected = 1095),
                           actionButton(
                             "run_url", 
                             "Get Data",
@@ -179,9 +183,11 @@ server <- function(input, output) {
   # GET DATA FOR APP --------------------------------------------------------
   data <- shiny::eventReactive(input$run_url, {
     # load function
-    source("/srv/shiny-server/hashtag-trends/R/trending_hashtags.R")
+    source("/srv/shiny-server/hashtag-trends/R/tt_hashtag_data.R")
     # run function
-    out <- trending_hashtags(input$tt_hash)
+    out <- tt_hashtag_data(input$tt_hash, input$range)
+    # temp data for build
+    # out <- readRDS("/srv/shiny-server/hashtag-trends/test_data.rds")
   })
   
   
@@ -193,15 +199,20 @@ server <- function(input, output) {
   
   output$text_left_post <- renderUI({
     req(input$run_url, data())
+    text <- case_when(input$range == 7 ~ "Last 7 days, United States",
+                      input$range == 30 ~ "Last 30 days, United States",
+                      input$range == 120 ~ "Last 120 days, United States",
+                      input$range == 365 ~ "Last year, United States",
+                      input$range == 1095 ~ "Last 3 years, United States")
     l1 <- "<br><h4><strong>Posts</strong></h4>"
-    l2 <- paste0("<h2>", scales::label_number(accuracy=.1, scale_cut=scales::cut_short_scale())(data()$post_count_last_3yrs), "</h2>")
-    l3 <- "<h6>Last 3 years, United States</h6>"
+    l2 <- paste0("<h2>", scales::label_number(accuracy=.1, scale_cut=scales::cut_short_scale())(data()$post_count), "</h2>")
+    l3 <- paste0("<h6>", text, "</h6>")
     l4 <- "<br><h4></h4>"
     post <- paste(l1, l2, l3, l4)
     tagList(
       HTML(post),
       bsTooltip("text_left_post", 
-                title = scales::comma(data()$post_count_last_3yrs), 
+                title = scales::comma(data()$post_count), 
                 trigger = "hover",
                 placement="bottom"
       )
@@ -226,15 +237,20 @@ server <- function(input, output) {
   
   output$text_left_video <- renderUI({
     req(input$run_url, data())
+    text <- case_when(input$range == 7 ~ "Last 7 days, United States",
+                      input$range == 30 ~ "Last 30 days, United States",
+                      input$range == 120 ~ "Last 120 days, United States",
+                      input$range == 365 ~ "Last year, United States",
+                      input$range == 1095 ~ "Last 3 years, United States")
     l1 <- "<br><h4><strong>Views</strong></h4>"
-    l2 <- paste0("<h2>", scales::label_number(accuracy=.1, scale_cut=scales::cut_short_scale())(data()$video_views_last_3yrs),"</h2>")
-    l3 <- "<h6>Last 3 years, United States</h6>"
+    l2 <- paste0("<h2>", scales::label_number(accuracy=.1, scale_cut=scales::cut_short_scale())(data()$video_views),"</h2>")
+    l3 <- paste0("<h6>", text, "</h6>")
     l4 <- "<br><h4></h4>"
     post <- paste(l1, l2, l3, l4)
     tagList(
       HTML(post),
       bsTooltip("text_left_video", 
-                title = scales::comma(data()$video_views_last_3yrs), 
+                title = scales::comma(data()$video_views), 
                 trigger = "hover",
                 placement="bottom"
       )
@@ -283,12 +299,14 @@ server <- function(input, output) {
       rename(Index = value) |> 
       e_charts(time) |> 
       e_area(Index) |> 
-      e_title(paste0("#",input$tt_hash), "Monthly Popularity") |> 
+      e_title(paste0("#",input$tt_hash), "Popularity in U.S.") |> 
       e_legend(FALSE) |> 
       e_tooltip(trigger = "axis") |> 
       e_show_loading()  |> 
       e_color("#ee1d52") |> 
-      e_theme("dark")
+      e_theme("dark") |> 
+      e_toolbox() |> 
+      e_toolbox_feature()
   })
   
   output$demo_plot <-  renderEcharts4r({
@@ -303,7 +321,9 @@ server <- function(input, output) {
                                         function(params){
                                         return('<strong>' + params.name + 
                                         ':</strong> ' + params.percent)  +'%' }  ")) |> 
-      e_show_loading() 
+      e_show_loading() |> 
+      e_toolbox() |> 
+      e_toolbox_feature()
     
   })
   
@@ -313,12 +333,14 @@ server <- function(input, output) {
       rename(Index = value) |> 
       e_charts(time) |> 
       e_area(Index) |> 
-      e_title(paste0("#", input$tt_hash), "Monthly Popularity, US") |> 
+      e_title(paste0("#", input$tt_hash), "Popularity in U.S.") |> 
       e_legend(FALSE) |> 
       e_tooltip(trigger = "axis") |> 
       e_show_loading() |> 
       e_color("#00f2ea") |> 
-      e_theme("dark")
+      e_theme("dark") |> 
+      e_toolbox() |> 
+      e_toolbox_feature()
   })
   
   output$related_kw_p1 <-  renderEcharts4r({
@@ -331,12 +353,14 @@ server <- function(input, output) {
       rename(Index = value) |> 
       e_charts(time) |> 
       e_area(Index) |> 
-      e_title(paste0("#", data()$related_hashtags[1]), "Monthly Popularity") |> 
+      e_title(paste0("#", data()$related_hashtags[1]), "Popularity in U.S.") |> 
       e_legend(FALSE) |> 
       e_tooltip(trigger = "axis") |> 
       e_show_loading() |> 
       e_color("#00f2ea") |> 
-      e_theme("dark")
+      e_theme("dark") |> 
+      e_toolbox() |> 
+      e_toolbox_feature()
   })
   
   output$related_kw_p2 <-  renderEcharts4r({
@@ -349,12 +373,14 @@ server <- function(input, output) {
       rename(Index = value) |> 
       e_charts(time) |> 
       e_area(Index) |> 
-      e_title(paste0("#", data()$related_hashtags[2]), "Monthly Popularity") |> 
+      e_title(paste0("#", data()$related_hashtags[2]), "Popularity in U.S.") |> 
       e_legend(FALSE) |> 
       e_tooltip(trigger = "axis") |> 
       e_show_loading() |> 
       e_color("#00f2ea") |> 
-      e_theme("dark")
+      e_theme("dark") |> 
+      e_toolbox() |> 
+      e_toolbox_feature()
   })
   
   output$related_kw_p3 <-  renderEcharts4r({
@@ -367,12 +393,14 @@ server <- function(input, output) {
       rename(Index = value) |> 
       e_charts(time) |> 
       e_area(Index) |> 
-      e_title(paste0("#", data()$related_hashtags[3]), "Monthly Popularity") |> 
+      e_title(paste0("#", data()$related_hashtags[3]), "Popularity in U.S.") |> 
       e_legend(FALSE) |> 
       e_tooltip(trigger = "axis") |> 
       e_show_loading() |> 
       e_color("#00f2ea") |> 
-      e_theme("dark")
+      e_theme("dark") |> 
+      e_toolbox() |> 
+      e_toolbox_feature()
   })
   
   output$related_kw_p4 <-  renderEcharts4r({
@@ -385,12 +413,14 @@ server <- function(input, output) {
       rename(Index = value) |> 
       e_charts(time) |> 
       e_area(Index) |> 
-      e_title(paste0("#", data()$related_hashtags[4]), "Monthly Popularity") |> 
+      e_title(paste0("#", data()$related_hashtags[4]), "Popularity in U.S.") |> 
       e_legend(FALSE) |> 
       e_tooltip(trigger = "axis") |> 
       e_show_loading() |> 
       e_color("#00f2ea") |> 
-      e_theme("dark")
+      e_theme("dark") |> 
+      e_toolbox() |> 
+      e_toolbox_feature()
   })
   
   output$related_kw_p5 <-  renderEcharts4r({
@@ -403,12 +433,14 @@ server <- function(input, output) {
       rename(Index = value) |> 
       e_charts(time) |> 
       e_area(Index) |> 
-      e_title(paste0("#", data()$related_hashtags[5]), "Monthly Popularity") |> 
+      e_title(paste0("#", data()$related_hashtags[5]), "Popularity in U.S.") |> 
       e_legend(FALSE) |> 
       e_tooltip(trigger = "axis") |> 
       e_show_loading() |>
       e_color("#00f2ea") |> 
-      e_theme("dark")
+      e_theme("dark") |> 
+      e_toolbox() |> 
+      e_toolbox_feature()
   })
   
   
@@ -438,8 +470,8 @@ server <- function(input, output) {
     data()$related_stats |> 
       DT::datatable(
         rownames = FALSE,
-        colnames = c("Hashtag", "Posts (3 years)", "Posts (Total)", 
-                     "Video Views (3 years)", "Video Views (Total)"), 
+        colnames = c("Hashtag", "Posts", "Posts (Total)", 
+                     "Video Views", "Video Views"), 
         class = c("stripe", "hover"),
         options = list(
           columnDefs = list(
