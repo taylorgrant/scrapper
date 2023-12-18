@@ -13,7 +13,7 @@ youtube_extract <- function(datalist) {
   x <- Filter(length, x)
   
   comments <- NULL
-  for (i in seq_len(nrow(summary))) {
+  for (i in 1:length(x)) {
     print(i)
     tmp <- x[[i]] %>% 
       data.table::rbindlist(fill = TRUE) |> 
