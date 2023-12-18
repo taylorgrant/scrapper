@@ -18,7 +18,7 @@ youtube_full <- function(name) {
   urls <- youtube_filter(loc)
   
   # map over function and save to environment for safe processing
-  tmpdata <<- urls |>
+  tmpdata <- urls |>
     purrr::map(youtube_dl_info)
   
   # clean and add to reactive values
@@ -31,4 +31,4 @@ youtube_full <- function(name) {
 }
 
 # example: to run:
-youtube_full("gq_iconic_songs")
+# youtube_full("frozendumplings")
