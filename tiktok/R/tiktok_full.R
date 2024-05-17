@@ -1,5 +1,4 @@
 ## Functions to scrape TikTok ## 
-
 tiktok_full <- function(handle = NULL, hashtag = NULL) {
   pacman::p_load(tidyverse, janitor, here, glue)
   source(here("tiktok", "R", "filter_links.R"))
@@ -35,7 +34,7 @@ tiktok_full <- function(handle = NULL, hashtag = NULL) {
 }
 
 # example 
-tiktok_full(hashtag = "bmw")
+tiktok_full(handle = "bmwusa", hashtag = NULL)
 
 
 
