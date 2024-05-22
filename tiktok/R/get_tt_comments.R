@@ -85,7 +85,8 @@ scrape_comments <- function(post_id, cursor) {
 #' @export
 #'
 #' @examples
-fetch_tt_comments <- function(post_id) {
+fetch_tt_comments <- function(url) {
+  post_id <- sub(".*[^0-9]([0-9]+)$", "\\1", url)
   tmp <- scrape_comments(post_id, cursor = 0)
   # get cursor starting locations
   cursors <- (1:floor(tmp$total_comments/50)*50)+1
