@@ -8,7 +8,7 @@
 #' @examples
 get_tt_user <- function(handle) {
   pacman::p_load(tidyverse)
-  handle <- sub("^@", "", handle) # drop @ if there
+  handle <- sub("^@", "", handle) # drop @ if it's there
   link <- glue::glue("https://www.tiktok.com/@{handle}?lang=en")
 
   # setting headers
@@ -59,7 +59,7 @@ get_tt_user <- function(handle) {
          date_pulled = Sys.Date())
 }
 
-bib <- get_tt_user("bibigousa")
+# adre <- get_tt_user("addisonre")
 
 
 
