@@ -6,7 +6,7 @@
 #' @export
 #'
 #' @examples
-get_tt_posts <- function(link){
+get_tt_posts <- purrr:::possibly(function(link){
   # setting headers
   headers = c(
     `Accept` = '*/*',
@@ -58,7 +58,7 @@ get_tt_posts <- function(link){
     dplyr::mutate(hashtags = stringr::str_extract_all(post_text, "#\\S+"),
                   at_mentions = stringr::str_extract_all(post_text, "@\\S+"),
                   created_time = lubridate::as_datetime(as.integer(created_time), tz = "America/Los_Angeles"))
-} 
+}, otherwise = NA) 
 
 
 
