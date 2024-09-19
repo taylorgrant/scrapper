@@ -1,16 +1,22 @@
 # read, clean, and filter urls from link gopher
-filter_links <- function(file_loc, handle = NULL, hashtag = NULL) {
-  handle <- stringr::str_remove_all(handle, "@") # remove at handle if attached
-  hashtag <- stringr::str_remove_all(hashtag, "#") # remove at handle if attached
+filter_links <- function(file_loc, handle = NULL) {
+  # hashtag <- stringr::str_remove_all(hashtag, "#") # remove at handle if attached
   
-  if (str_detect(file_loc, ".csv")) {
-    tmp <- read_csv(file_loc) |>  
-      filter(str_detect(links, pattern = regex("@[^/]+/video"))) |> 
-      pull()
+  if (stringr::str_detect(file_loc, ".csv")) {
+    tmp <- readr::read_csv(file_loc)
   } else {
-    tmp <- readxl::read_excel(file_loc) |> 
-      filter(str_detect(links, pattern = regex("@[^/]+/video")))  |> 
-      pull()
+    tmp <- readxl::read_excel(file_loc)
+  }
+  
+  if (is.null(handle)) {
+    tmp <- tmp |> 
+      dplyr::filter(stringr::str_detect(links, pattern = glue::glue("[a-z]/video"))) |> 
+      dplyr::pull()
+  } else {
+    handle <- stringr::str_remove_all(handle, "@") # remove at handle if attached
+    tmp <- tmp |> 
+      dplyr::filter(stringr::str_detect(links, pattern = glue::glue("{handle}/video"))) |> 
+      dplyr::pull()
   }
   
   # reverse order of urls
