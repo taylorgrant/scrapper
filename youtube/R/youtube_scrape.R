@@ -14,7 +14,7 @@
 #' \dontrun{
 #' youtube_scraper(link = "https://www.youtube.com/watch?v=fpYu9XRZZNw", get_captions = TRUE,get_comments = TRUE, download_video = TRUE)
 #' }
-youtube_scraper <- function(link, get_captions = TRUE, get_comments = TRUE, download_video = FALSE, output_dir = "youtube/yt_caption_data", cleanup_files = TRUE) {
+youtube_scrape <- function(link, get_captions = TRUE, get_comments = TRUE, download_video = FALSE, output_dir = "youtube/yt_caption_data", cleanup_files = TRUE) {
   # Create the base directory if it doesn't exist
   if (!dir.exists(output_dir)) {
     dir.create(output_dir, recursive = TRUE)
