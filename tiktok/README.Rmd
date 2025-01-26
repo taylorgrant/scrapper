@@ -10,55 +10,41 @@ knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>"
 )
+
+source("~/R/scrapper/tiktok/R/get_tt_user.R")
+source("~/R/scrapper/tiktok/R/get_tt_posts.R")
 ```
 
 ## Tiktok scraping
 
 **Needed to run:**
 
-Most of the code is written in R, but it also uses some Python, and it also requires [yt-dlp](https://github.com/yt-dlp/yt-dlp) to be installed. Use the `reticulate` package to create a new conda environment `conda_create('env-name')` and then install everything within that environment using `conda_install()`. To ensure that the proper conda environment is used, either set the .Renviron or use `Sys.setenv(RETICULATE_PYTHON=dir/to/env)` at the top of the code.
+There are two working functions to scrape TikTok. 
 
-**Folder structure** 
+- get_tt_user.R
+- get_tt_posts.R
 
-```{r, eval = FALSE}
-├── tiktok
-│   ├── R
-│   │   ├── filter_links.R
-│   │   ├── tiktok_full.R
-│   │   └── tiktok_scrape.R
-│   ├── py_functions
-│   │   └── tiktok_info.py
-│   └── tiktok_data
-│       ├── links
-│       └── processed
+#### Get TikTok User
+
+This function returns the account data for a specific user. Provide the function with a username/handle, and it will pull the data. 
+
+```{r}
+get_tt_user("addisonre") |> data.frame()
 ```
 
-#### Harvesting Tiktok URLs
-As of right now, yt-dlp can't just access a specific TikTok page and grab the relevant urls; we have to feed the urls into the function. To harvest, I to use the [Link Gopher](https://chrome.google.com/webstore/detail/link-gopher/bpjdkodgnbfalgghnbeggfbfjpcfamkf) extension for Chrome. Go the page of interest - whether that's a handle (e.g., [BMW](https://www.tiktok.com/@bmw?lang=en)) or a hashtag (e.g., [#dumplings](https://www.tiktok.com/search?q=%23dumplings)) - and manually scroll down through the posted content, allowing the posts to load. After loading enough posts, use the Link Gopher extension to grab all urls. 
+#### Get TikTok Posts
 
-1. Copy and paste all of them to a .csv or .xlsx file. 
-2. Make sure the column header is titled - "links"
-3. To work within the folder structure as it's set up, save this file to the `/tiktok_data/links` folder using the naming convention - `{handle}.[csv | xlsx]` or `{hashtag}.[csv | xlsx]`. The naming convention doesn't matter a whole lot since only the post urls will be kept, but it will make a difference when saving - if it's a handle, it will save as `{handle}.xlsx` and `{handle}.rds`, but if it's a hashtag the file will prepend a `hashtag_{hashtag}.` to the front of the filename.
+Given a url, the function returns relevant performance data for the post. 
 
-#### To Run
-Once the TikTok urls are saved in the `/tiktok_data/links/` folder, everything else runs through the `/R/tiktok_full.R` file. It will source the other functions, de-dupe the posts, and save two files - .rds and .xlsx. 
-
-#### Output 
-
-When run, the data looks like the below. URLs aren't showing up in this table, but they're included as well.
-
-```{r, echo = FALSE}
-pacman::p_load(tidyverse, here, kableExtra)
-
-readRDS(here("tiktok", "tiktok_data", "processed", "bmw-2023-12-11.rds")) |> 
-  head(3) |> 
-  kbl(row.names = FALSE)
-
+```{r}
+url <- "https://www.tiktok.com/@bmw/video/7462756650202483990?lang=en"
+get_tt_posts(url) |> 
+  data.frame()
 ```
 
+With multiple urls, just use `purrr::map_dfr()` to return data for each video. 
 
+#### Not working
 
-
-
-
+The `get_tt_comments()` function is broken...
 

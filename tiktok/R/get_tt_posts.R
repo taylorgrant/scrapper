@@ -60,6 +60,10 @@ get_tt_posts <- purrr:::possibly(function(link){
                   created_time = lubridate::as_datetime(as.integer(created_time), tz = "America/Los_Angeles"))
 }, otherwise = NA) 
 
+# use
+# url <- "https://www.tiktok.com/@bmw/video/7449427546816400662?lang=en"
+# dat <- get_tt_posts(url)
+
 
 
 

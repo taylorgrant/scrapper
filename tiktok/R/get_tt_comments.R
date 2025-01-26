@@ -98,7 +98,9 @@ fetch_tt_comments <- function(url) {
   rbind(tmp$comment_data, out)
 }
 
-
+# use
+url <- "https://www.tiktok.com/@chgo_sports/video/7464246260384419115"
+com <- fetch_tt_comments(url)
 
 
 
