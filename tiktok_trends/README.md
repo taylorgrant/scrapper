@@ -1,6 +1,10 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
+# Note
+
+This doesn’t work anymore. TikTok has changed their hashtag data setup.
+
 ## TikTok Hashtags
 
 TikTok has a [Hashtag

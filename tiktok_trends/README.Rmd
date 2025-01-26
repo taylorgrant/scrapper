@@ -12,6 +12,9 @@ knitr::opts_chunk$set(
 )
 ```
 
+# Note 
+This doesn't work anymore. TikTok has changed their hashtag data setup. 
+
 ## TikTok Hashtags
 
 TikTok has a [Hashtag Discovery](https://ads.tiktok.com/business/creativecenter/inspiration/popular/hashtag/pc/en) site that updates on a daily basis with hashtags that are trending over a 7-, 30-, or 120-day window. Due to the the nature of TikTok however, many hashtags are ephemeral, some are seasonal, and others are just random. 
