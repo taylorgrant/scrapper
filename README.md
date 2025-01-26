@@ -14,6 +14,7 @@ Sections include:
   - Grab user data and organic post data
 - [TikTok
   Hashtags](https://github.com/taylorgrant/scrapper/tree/main/tiktok_trends)
+  (Broken)
   - Search for and receive 3 years of trend data for a specific hashtag
     in the US
 - [YouTube](https://github.com/taylorgrant/scrapper/tree/main/youtube)
