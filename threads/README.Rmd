@@ -1,0 +1,53 @@
+---
+output: github_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+source("~/R/scrapper/threads/R/scrape_thread.R")
+source("~/R/scrapper/threads/R/scrape_profile.R")
+pacman::p_load(tidyverse, reticulate)
+```
+
+## Scraping Threads
+
+In case there is ever a need, these functions use playwright to crawl the site. This is pretty basic, and to be honest, some of the times the post scraper actually grabs the wrong thread. 
+
+### Scraping a thread 
+
+The thread returns a named list - thread_data and replies data. There isn't a whole lot that's returned by Threads, and this tries to get the relevant info. 
+
+```{r}
+dat <- scrape_thread(url = "https://www.threads.net/@koreydior_/post/DFRXN-kt1H9")
+
+list(dat$thread_data, dat$replies_data[1:4,])
+```
+
+It is possible to scrape multiple threads, but the replies data doesn't have a way of identifying which post the reply is being made to. So running across multiple threads can be a little difficult. 
+
+To do so, it could be done like this: 
+
+```{r, eval = FALSE}
+urls <- c("https://www.threads.net/@natgeo/post/DFSt1c2soIH",
+          "https://www.threads.net/@natgeo/post/DFPwfxNt-Fv")
+
+# Apply safe_scrape_thread to the list of URLs
+results <- map(urls, scrape_thread)
+
+# Filter out failed results
+results <- compact(results)
+
+# Combine the results
+all_threads <- map_df(results, ~.x$thread_data)
+all_replies <- map_df(results, ~.x$replies_data) # may want to keep replies in separate lists 
+```
+
+### Scraping the user profile 
+
+The user profile scraper returns a named list - profile_data and recent_threads. The user data is basic, the threads looks to be the 30 most recent threads posted from that account. 
+
+```{r}
+dat <- scrape_profile(url = "https://www.threads.net/@natgeo/")
+
+list(dat$profile_data, dat$recent_threads[1:3,])
+```
