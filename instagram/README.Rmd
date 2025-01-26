@@ -7,9 +7,36 @@ knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>"
 )
+
+source("~/R/scrapper/instagram/R/scrape_instagram.R")
+source("~/R/scrapper/instagram/R/ig_scrape_user.R")
+source("~/R/scrapper/instagram/R/ig_parse_user.R")
+pacman::p_load(tidyverse)
 ```
 
 ## Instagram scraping 
 
-This is a test...
+These are a series of functions primarily written in Python and then using R wrappers to call and process the data. 
+
+#### User Level
+
+The `ig_scrape_user()` function will pull the basic account details of a username. There is a helper function `ig_parse_user()` that parses the returned data. I'm just manually pulling things into a tibble for now. 
+
+```{r}
+user <- ig_scrape_user("bmw")
+user_parsed <- ig_parse_user(user)
+tibble(name = user_parsed$account_data$name, username = user_parsed$account_data$username,
+       id = user_parsed$account_data$id,
+       category = user_parsed$account_data$category, bio = user_parsed$account_data$bio,
+       followers = user_parsed$account_data$followers, follows = user_parsed$account_data$follows,
+       video_count = user_parsed$account_data$video_count, image_count = user_parsed$account_data$image_count)
+```
+
+#### Post Level
+
+At the post level, the `scrape_instagram()` function will pull post level data. There are two arguments: `user_name` and `max_pages`. `user_name` is the public handle of the account. `max_pages` is the total number of pages of data to capture. By defaul, each page contains data for 12 posts. 
+
+```{r}
+scrape_instagram("bmw", max_pages = 1) |> data.frame()
+```
 
