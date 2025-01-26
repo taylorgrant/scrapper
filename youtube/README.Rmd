@@ -86,7 +86,7 @@ out$comments |>
 The `youtube_scrape()` function allows for the downloading of a video, it's subtitles, clean text of the subtitles/captions, and all metrics of the video. The user can specify what they want to download. This should be particularly useful for the caption text. 
 
 ```{r, eval = FALSE}
-youtube_scraper(
+youtube_scrape(
   link = "https://www.youtube.com/watch?v=fpYu9XRZZNw", 
   get_captions = TRUE,
   get_comments = TRUE, 
