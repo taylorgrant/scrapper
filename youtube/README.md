@@ -15,10 +15,8 @@ or for a specific vertical.
 
 **Needed to run:**
 
-Similar to the
-[TikTok](https://github.com/taylorgrant/scrapper/tree/main/tiktok)
-scraper, most of the code is written in R, but it also uses some Python,
-and it also requires [yt-dlp](https://github.com/yt-dlp/yt-dlp) to be
+Most of this code is written in R, but it also uses some Python, and it
+also requires [yt-dlp](https://github.com/yt-dlp/yt-dlp) to be
 installed. Use the `reticulate` package to create a new conda
 environment `conda_create('env-name')` and then install everything
 within that environment using `conda_install()`. To ensure that the
@@ -32,11 +30,13 @@ proper conda environment is used, either set the .Renviron or use
 │   ├── youtube_extract.R
 │   ├── youtube_filter.R
 │   └── youtube_full.R
+│   └── youtube_scrape.R
 ├── py_functions
 │   └── youtube_dl_info.py
 └── youtube_data
     ├── links
     └── processed
+└── yt_caption_data
 ```
 
 The code structure is pretty simple. The R function `youtube_full.R`
@@ -126,4 +126,20 @@ out$comments |>
 #> 4     St Vincent Breaks Down Her Most Iconic Songs | GQ
 #> 5     St Vincent Breaks Down Her Most Iconic Songs | GQ
 #> 6     St Vincent Breaks Down Her Most Iconic Songs | GQ
+```
+
+#### YouTube Scraper
+
+The `youtube_scrape()` function allows for the downloading of a video,
+it’s subtitles, clean text of the subtitles/captions, and all metrics of
+the video. The user can specify what they want to download. This should
+be particularly useful for the caption text.
+
+``` r
+youtube_scraper(
+  link = "https://www.youtube.com/watch?v=fpYu9XRZZNw", 
+  get_captions = TRUE,
+  get_comments = TRUE, 
+  download_video = TRUE,
+  output_dir = "youtube/yt_caption_data")
 ```
