@@ -20,5 +20,7 @@ Sections include:
   - Scrape metadata and all comments of user-provided urls
 - [Instagram](https://github.com/taylorgrant/scrapper/tree/main/instagram)
   - Scrape user and post level data
+- [Threads](https://github.com/taylorgrant/scrapper/tree/main/threads)
+  - Scrape user and post (threads) level data
 - [Steam](https://github.com/taylorgrant/scrapper/tree/main/steam)
   - Getting game reviews of a specific game
